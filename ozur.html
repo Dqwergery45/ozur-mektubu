@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bir Mektup...</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fbeee6;
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .envelope {
+      background: #fff;
+      border: 2px solid #dcbcbc;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .envelope::before {
+      content: "📩";
+      font-size: 40px;
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #c14444;
+    }
+
+    p {
+      font-size: 20px;
+      color: #333;
+      margin-top: 20px;
+    }
+
+    .heart {
+      font-size: 28px;
+      color: red;
+      margin-top: 20px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .confetti {
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      position: absolute;
+      animation: fall 3s linear infinite;
+      border-radius: 50%;
+      opacity: 0.8;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body onclick="askForForgiveness()">
+  <div class="envelope">
+    <h1>Sevgili Aşkım,</h1>
+    <p>Özür dilerim sevgilim</p>
+    <div class="heart">♥</div>
+  </div>
+
+  <script>
+    let asked = false;
+
+    function askForForgiveness() {
+      if (asked) return;
+      asked = true;
+
+      const confirmBox = document.createElement("div");
+      confirmBox.style.position = "fixed";
+      confirmBox.style.top = "50%";
+      confirmBox.style.left = "50%";
+      confirmBox.style.transform = "translate(-50%, -50%)";
+      confirmBox.style.background = "#fff";
+      confirmBox.style.padding = "30px";
+      confirmBox.style.boxShadow = "0 0 15px rgba(0,0,0,0.2)";
+      confirmBox.style.borderRadius = "10px";
+      confirmBox.style.textAlign = "center";
+      confirmBox.style.zIndex = "999";
+
+      const question = document.createElement("p");
+      question.textContent = "Beni affettin mi?";
+      question.style.fontSize = "20px";
+      question.style.marginBottom = "20px";
+
+      const yesBtn = document.createElement("button");
+      yesBtn.textContent = "Evet";
+      yesBtn.style.padding = "10px 20px";
+      yesBtn.style.background = "#c14444";
+      yesBtn.style.color = "#fff";
+      yesBtn.style.border = "none";
+      yesBtn.style.borderRadius = "5px";
+      yesBtn.style.cursor = "pointer";
+      yesBtn.onclick = function () {
+        document.body.removeChild(confirmBox);
+        startConfetti();
+      };
+
+      confirmBox.appendChild(question);
+      confirmBox.appendChild(yesBtn);
+      document.body.appendChild(confirmBox);
+    }
+
+    function startConfetti() {
+      for (let i = 0; i < 150; i++) {
+        let confetti = document.createElement("div");
+        confetti.className = "confetti";
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor = getRandomColor();
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        confetti.style.width = confetti.style.height = (Math.random() * 6 + 4) + "px";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => {
+          confetti.remove();
+        }, 4000);
+      }
+    }
+
+    function getRandomColor() {
+      const colors = ["#ff5e5e", "#ffc107", "#28a745", "#007bff", "#e83e8c", "#17a2b8"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+  </script>
+</body>
+</html>
